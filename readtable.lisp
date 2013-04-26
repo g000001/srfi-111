@@ -8,5 +8,5 @@
   (:dispatch-macro-char #\# #\&
                         (lambda (s c a)
                           (cl:declare (cl:ignore c a))
-                          `(srfi-111:box ',(cl:read s cl:T cl:nil cl:T))))
+                          (srfi-111:box (cl:read s cl:T cl:nil cl:T))))
   (:case :upcase))

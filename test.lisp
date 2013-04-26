@@ -27,10 +27,4 @@
       (set-box! (list 0) 42))))
 
 
-(test pair?
-  (is-false (pair? (box 42)))
-  (is-false (pair? 42))
-  (is-true (pair? (list 42))))
-
-
 ;;; *EOF*

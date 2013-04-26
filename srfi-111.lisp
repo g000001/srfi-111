@@ -2,36 +2,24 @@
 (cl:in-package :srfi-111.internal)
 
 
-;; Unique object in the cdr of a pair flags it as a box.
-(cl:defconstant %box-flag (if (cl:boundp '%box-flag)
-                              (cl:symbol-value '%box-flag)
-                              (string-copy "box flag")))
+(cl:defstruct (box (:constructor box (obj))
+                   (:predicate box?)
+                   (:print-object (cl:lambda (obj stream)
+                                    (cl:format stream "#&~S" (unbox obj)))))
+  obj)
 
 
-;; Predicate
-(define (box? x) (and (rnrs:pair? x) (eq? (cdr x) %box-flag)))
+(cl:defmethod cl:make-load-form ((self box) cl:&optional env)
+  (cl:declare (cl:ignore env))
+  `(box ,(box-obj self)))
 
+;; Accessor   
+(define unbox #'box-obj)
 
-;; Constructor
-(define (box x) (cons x %box-flag))
-
-
-;; Accessor
-(define (unbox x)
-  (if (box? x)
-    (car x)
-    (error "Attempt to unbox non-box")))
-    
 
 ;; Mutator
-(define (set-box! x y)
-  (if (box? x)
-    (set-car! x y)
-    (error "Attempt to mutate non-box")))
-
-
-(define (pair? x)
-  (and (rnrs:pair? x) (not (box? x))))
+(define set-box! 
+  (lambda (box val) (cl:setf (box-obj box) val)))
 
 
 ;;; *EOF*
