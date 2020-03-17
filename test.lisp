@@ -1,8 +1,6 @@
-(cl:in-package :srfi-111.internal)
+(cl:in-package "https://github.com/g000001/srfi-111#internals")
 
-(def-suite srfi-111)
-
-(in-suite srfi-111)
+(def-suite* srfi-111)
 
 
 (test box?
@@ -14,7 +12,7 @@
 
 (test unbox
   (let ((obj '#:foo))
-    (is-true (eq? obj (unbox (box obj))))
+    (is-true (eq obj (unbox (box obj))))
     (signals (cl:error) 
       (unbox (list 0)))))
 

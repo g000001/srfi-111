@@ -1,25 +1,30 @@
 ;;;; srfi-111.lisp
-(cl:in-package :srfi-111.internal)
+(cl:in-package "https://github.com/g000001/srfi-111#internals")
 
-(cl:eval-when (:compile-toplevel :load-toplevel :execute)
-  (cl:defstruct (box (:constructor box (obj))
-                     (:predicate box?)
-                     (:print-object (cl:lambda (obj stream)
-                                      (cl:format stream "#&~S" (unbox obj)))))
+
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (defstruct (box (:constructor box (obj))
+                  (:predicate box?)
+                  (:print-object (lambda (obj stream)
+                                   (format stream "#&~S" (unbox obj)))))
     obj))
 
 
-(cl:defmethod cl:make-load-form ((self box) cl:&optional env)
-  (cl:declare (cl:ignore env))
+(defmethod make-load-form ((self box) &optional env)
+  (declare (ignore env))
   `(box ,(box-obj self)))
 
+
 ;; Accessor   
-(define unbox #'box-obj)
+(declaim (inline unbox))
+(defun unbox (obj)
+  (Box-Obj obj))
 
 
 ;; Mutator
-(define set-box! 
-  (lambda (box val) (cl:setf (box-obj box) val)))
+(declaim (inline set-box!))
+(defun set-box! (box val)
+  (setf (box-obj box) val))
 
 
 ;;; *EOF*

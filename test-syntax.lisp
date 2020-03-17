@@ -1,4 +1,4 @@
-(cl:in-package :srfi-111.internal)
+(cl:in-package "https://github.com/g000001/srfi-111#internals")
 
 
 (in-readtable :srfi-111)

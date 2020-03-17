@@ -1,14 +1,19 @@
 ;;;; package.lisp
 
-(cl:in-package :cl-user)
+(cl:in-package cl-user)
 
-(defpackage :srfi-111
+
+(defpackage "https://github.com/g000001/srfi-111"
   (:use)
-  (:export :box :box? :unbox :set-box! :pair?))
+  (:export box box? unbox set-box! pair?))
 
 
-(defpackage :srfi-111.internal
-  (:use :srfi-111 :rnrs :named-readtables :fiveam)
-  (:shadow :pair?)
-  (:import-from :cl :error))
+(defpackage "https://github.com/g000001/srfi-111#internals"
+  (:use 
+   cl
+   "https://github.com/g000001/srfi-111"
+   named-readtables
+   fiveam))
 
+
+;;; *EOF*
